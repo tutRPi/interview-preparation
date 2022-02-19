@@ -87,17 +87,17 @@ class BinarySearchTree:
                 # remove the node with that value in the left subtree (will not affect current node)
                 node.left = self.__remove(node.left, tmp.data)
         elif node.data < x:
-            node.left = self.__remove(node.right, x)
+            node.right = self.__remove(node.right, x)
         elif node.data > x:
-            node.right = self.__remove(node.left, x)
+            node.left = self.__remove(node.left, x)
 
         return node
 
-    def __dig_right(self, node: Node):
-        n = node
-        while n.right is not None:
-            n = self.__dig_right(node.right)
-        return n
+    # returns parent of most right
+    def __dig_right(self, node: Node) -> Node:
+        if node.right is not None:
+            return self.__dig_right(node.right)
+        return node
 
 
 if __name__ == '__main__':
@@ -126,8 +126,14 @@ if __name__ == '__main__':
 
     assert tree.remove(1) is False
     assert tree.remove(7) is True
+
+    print_binary_tree(tree.root_node())
+
     assert tree.remove(5) is True
-    assert tree.remove(4) is True
+
+    print_binary_tree(tree.root_node())
+
+    assert tree.remove(12) is True
     assert tree.size() == 4
 
     print_binary_tree(tree.root_node())
