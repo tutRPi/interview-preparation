@@ -1,3 +1,9 @@
+import os, sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from util.binary_tree_printer import print_binary_tree
+
+
 class Node:
     def __init__(self, data, left=None, right=None):
         self.data = data
@@ -8,6 +14,9 @@ class Node:
 class BinarySearchTree:
     __node_count: int = 0
     __root: Node = None
+
+    def root_node(self):
+        return self.__root
 
     def is_empty(self) -> bool:
         return self.__node_count == 0
@@ -91,28 +100,34 @@ class BinarySearchTree:
         return n
 
 
-#       7
-#    /      \
-#   4       12
-#  /  \    /   \
-# 2    5  8    13
+if __name__ == '__main__':
+    #       7
+    #    /      \
+    #   4       12
+    #  /  \    /   \
+    # 2    5  8    13
 
-tree = BinarySearchTree()
-tree.add(7)
-tree.add(12)
-tree.add(8)
-tree.add(4)
-tree.add(5)
-tree.add(2)
-tree.add(13)
-tree.add(5)  # duplicate
-tree.add(13)  # duplicate
+    tree = BinarySearchTree()
+    tree.add(7)
+    tree.add(12)
+    tree.add(8)
+    tree.add(4)
+    tree.add(5)
+    tree.add(2)
+    tree.add(13)
+    tree.add(5)  # duplicate
+    tree.add(13)  # duplicate
 
-assert tree.contains(5) is True
-assert tree.contains(9) is False
-assert tree.size() == 7
+    assert tree.contains(5) is True
+    assert tree.contains(9) is False
+    assert tree.size() == 7
 
-assert tree.remove(1) is False
-assert tree.remove(7) is True
-assert tree.remove(5) is True
-assert tree.size() == 5
+    print_binary_tree(tree.root_node())
+
+    assert tree.remove(1) is False
+    assert tree.remove(7) is True
+    assert tree.remove(5) is True
+    assert tree.remove(4) is True
+    assert tree.size() == 4
+
+    print_binary_tree(tree.root_node())
