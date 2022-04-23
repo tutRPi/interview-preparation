@@ -2,22 +2,26 @@ class Solution:
     def numDecodings(self, s: str) -> int:
         if not s:
             return 0
-        return self.get_decoding(s)
 
-    def get_decoding(self, sub_string: str) -> int:
-        if not sub_string:
-            return 1
+        def dfs(i):
+            if i in memo:
+                return memo[i]
+            if i == len(s):
+                return 1
 
-        if sub_string[0] == "0":
-            return 0
+            if s[i] == "0":
+                memo[i] = 0
+                return 0
+            elif i == len(s) - 1:
+                return 1
+            else:
+                memo[i] = dfs(i + 1)
+                if i + 2 <= len(s) and int(s[i:i + 2]) <= 26:
+                    memo[i] += dfs(i + 2)
+                return memo[i]
 
-        if len(sub_string) == 1:
-            return 1
-
-        if int(sub_string[:2]) > 26:
-            return self.get_decoding(sub_string[1:])
-
-        return self.get_decoding(sub_string[1:]) + self.get_decoding(sub_string[2:])
+        memo = {}
+        return dfs(0)
 
 
 if __name__ == "__main__":
