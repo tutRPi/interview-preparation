@@ -6,22 +6,22 @@ class Solution:
 
         memo = {}
 
-        def dfs(i1, i2, i3) -> bool:
-            if i3 == len(s3):
+        def dfs(i1, i2) -> bool:
+            if i1 + i2 == len(s3):
                 return i1 == len(s1) and i2 == len(s2)
 
             if (i1, i2) in memo:
                 return memo[(i1, i2)]
 
             res = False
-            if i1 < len(s1) and i2 < len(s2) and s1[i1] == s2[i2] == s3[i3]:
-                res = dfs(i1 + 1, i2, i3 + 1) or dfs(i1, i2 + 1, i3 + 1)
-            elif i1 < len(s1) and s1[i1] == s3[i3]:
-                res = dfs(i1 + 1, i2, i3 + 1)
-            elif i2 < len(s2) and s2[i2] == s3[i3]:
-                res = dfs(i1, i2 + 1, i3 + 1)
+            if i1 < len(s1) and i2 < len(s2) and s1[i1] == s2[i2] == s3[i1 + i2]:
+                res = dfs(i1 + 1, i2) or dfs(i1, i2 + 1)
+            elif i1 < len(s1) and s1[i1] == s3[i1 + i2]:
+                res = dfs(i1 + 1, i2)
+            elif i2 < len(s2) and s2[i2] == s3[i1 + i2]:
+                res = dfs(i1, i2 + 1)
 
             memo[(i1, i2)] = res
             return memo[(i1, i2)]
 
-        return dfs(0, 0, 0)
+        return dfs(0, 0)
