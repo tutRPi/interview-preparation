@@ -1,15 +1,21 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        overall_sum = sum(nums)
-        if overall_sum % 2 == 1:
+        s = sum(nums)
+        if s % 2 == 1:
             return False
 
-        # 0/1 knapsack problem for overall_sum/2
-        all_variations = set()
-        for n in nums:
-            prev_sums = list(all_variations)
-            for prev_sum in prev_sums:
-                all_variations.add(n + prev_sum)
-            all_variations.add(n)
+        memo = {}
 
-        return overall_sum / 2 in all_variations
+        def dfs(i, target_sum) -> bool:
+            if target_sum == 0:
+                return True
+            if i == len(nums) or target_sum < 0:
+                return False
+            if (i, target_sum) in memo:
+                return memo[(i, target_sum)]
+
+            result = dfs(i + 1, target_sum - nums[i]) or dfs(i + 1, target_sum)
+            memo[(i, target_sum)] = result
+            return result
+
+        return dfs(0, s / 2)
