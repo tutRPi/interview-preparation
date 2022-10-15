@@ -13,20 +13,20 @@ class Solution:
 
                 if self.solveSudoku(board):
                     return True
-
-                print("revert", y, x, n)
                 board[y][x] = "."
 
         return False
 
-    def find_empty_cell(self, board):
+    @staticmethod
+    def find_empty_cell(board):
         for i in range(9):
             for j in range(9):
                 if board[i][j] == ".":
                     return i, j
         return -1, -1
 
-    def is_valid(self, board, number, x, y):
+    @staticmethod
+    def is_valid(board, number, x, y):
         # rows
         for i in range(9):
             if board[y][i] == number:
